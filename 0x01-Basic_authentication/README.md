@@ -1,4 +1,5 @@
 0x01. Basic authentication
+
 # Simple API
 
 Simple HTTP API for playing with `User` model.
