@@ -21,8 +21,8 @@ class BasicAuth(Auth):
         if not authorization_header.startswith('Basic '):
             return None
 
-        token_encoded = authorization_header.split(' ')[-1]
-        return token_encoded
+        token_enc = authorization_header.split(' ')[-1]
+        return token_enc
 
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
@@ -76,9 +76,9 @@ class BasicAuth(Auth):
         """Get the user from a request."""
         auth_header = self.authorization_header(request)
         if auth_header is not None:
-            token_encoded = self.extract_base64_authorization_header(auth_header)
-            if token_encoded is not None:
-                decoded = self.decode_base64_authorization_header(token_encoded)
+            token_enc = self.extract_base64_authorization_header(auth_header)
+            if token_enc is not None:
+                decoded = self.decode_base64_authorization_header(token_enc)
                 if decoded is not None:
                     Email, Pwd = self.extract_user_credentials(decoded)
                     if Email is not None:
