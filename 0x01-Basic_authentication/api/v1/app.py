@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Route module for the API
-"""
+"""Route module for the API"""
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -13,10 +11,9 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
-
 AUTH_TYPE = os.getenv("AUTH_TYPE")
 
-# check the AUTH_TYPE
+
 if AUTH_TYPE == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
@@ -27,11 +24,7 @@ elif AUTH_TYPE == 'basic_auth':
 
 @app.before_request
 def before_request():
-    """_summary_
-
-    Returns:
-        _type_: _description_
-    """
+    """Authenticates the user before processing a request."""
     if auth is None:
         pass
     else:
@@ -54,27 +47,13 @@ def not_found(error) -> str:
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """_summary_
-
-    Args:
-        error (_type_): _description_
-
-    Returns:
-        str: _description_
-    """
+    """Unauthorized handler."""
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """_summary_
-
-    Args:
-        error (_type_): _description_
-
-    Returns:
-        str: _description_
-    """
+    """Forbidden handler."""
     return jsonify({"error": "Forbidden"}), 403
 
 
