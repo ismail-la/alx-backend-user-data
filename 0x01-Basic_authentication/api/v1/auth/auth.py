@@ -1,27 +1,15 @@
 #!/usr/bin/env python3
-"""
-Module for authentication
-"""
+"""Module for the aPI authentication."""
 
-
-from typing import List, TypeVar
 from flask import request
+from typing import List, TypeVar
 
 
 class Auth:
-    """_summary_
-    """
+    """The authentication class"""
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """_summary_
-
-        Args:
-                path (str): _description_
-                excluded_paths (List[str]): _description_
-
-        Returns:
-                bool: _description_
-        """
+        """Method to check if auth is required."""
         if path is None:
             return True
 
@@ -43,17 +31,10 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
-        """_summary_
-
-        Args:
-                request (_type_, optional): _description_. Defaults to None.
-
-        Returns:
-                str: _description_
-        """
+        """Method to get authorization header."""
         if request is None:
             return None
-        # get header from the request
+
         header = request.headers.get('Authorization')
 
         if header is None:
@@ -62,7 +43,6 @@ class Auth:
         return header
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """_summary_
-        """
+        """Validates current user method"""
 
         return None
