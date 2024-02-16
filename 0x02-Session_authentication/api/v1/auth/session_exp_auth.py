@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-"""
-Expiring session module
-"""
+"""Expiring the session module"""
 from api.v1.auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
 from os import getenv
 
 
 class SessionExpAuth(SessionAuth):
-    """ Expiring session class
-    """
+    """ Expiring session class """
     def __init__(self) -> None:
-        """ Initialize SessionExpAuth instance
-        """
+        """ Initialize the SessionExpAuth instance"""
         super().__init__()
         duration = getenv('SESSION_DURATION')
         if not duration:
@@ -27,10 +23,6 @@ class SessionExpAuth(SessionAuth):
     def create_session(self, user_id: str = None) -> str:
         """ Gets session_id from parent class method
             Updates user_id_by_session_id dictionary to hold
-            key-pair value
-            Return:
-             - None if session_id can't be created
-             - session id if created
         """
         session_id = super().create_session(user_id)
         if not session_id:
@@ -42,9 +34,7 @@ class SessionExpAuth(SessionAuth):
         return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
-        """ Gets user id associated with passed session id
-            Return:
-                - user's id
+        """ Gets the user id associated with passed session ID
         """
         if not session_id and type(session_id) is not str:
             return None
@@ -54,11 +44,11 @@ class SessionExpAuth(SessionAuth):
         user_id = session_info.get("user_id")
         created_at = session_info.get("created_at")
 
-        # Get user id for session with no expiry duration
+
         if self.session_duration <= 0:
             return user_id
 
-        # Get user id for associated with expiry session
+
         if not created_at:
             return None
         expiry_date = created_at + timedelta(seconds=self.session_duration)
