@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""
-Route module for the API
-"""
+"""Route module for API"""
 from os import getenv
-from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
+from api.v1.views import app_views
 from flask_cors import (CORS, cross_origin)
 import os
 
@@ -16,7 +14,6 @@ auth = None
 
 AUTH_TYPE = os.getenv("AUTH_TYPE")
 
-# check the AUTH_TYPE
 if AUTH_TYPE == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
@@ -30,10 +27,7 @@ elif AUTH_TYPE == 'session_auth':
 
 @app.before_request
 def before_request():
-    """_summary_
-
-    Returns:
-        _type_: _description_
+    """_summary
     """
     if auth is None:
         pass
@@ -53,33 +47,20 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
-    """
+    """ Not found handler"""
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """_summary_
-
-    Args:
-        error (_type_): _description_
-
-    Returns:
-        str: _description_
+    """_summary
     """
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """_summary_
-
-    Args:
-            error (_type_): _description_
-
-    Returns:
-            str: _description_
+    """_summar
     """
     return jsonify({"error": "Forbidden"}), 403
 
