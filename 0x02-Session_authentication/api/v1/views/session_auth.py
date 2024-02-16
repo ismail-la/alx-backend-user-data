@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-""" Module of Users views
-"""
+""" A Module of Users views"""
 import os
 from api.v1.views import app_views
 from models.user import User
@@ -9,8 +8,7 @@ from flask import jsonify, request
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def session_auth():
-    """_summary_
-    """
+
     email = request.form.get('email')
     password = request.form.get('password')
     if email is None or email == '':
@@ -34,8 +32,7 @@ def session_auth():
 @app_views.route('/auth_session/logout',
                  methods=['DELETE'], strict_slashes=False)
 def logout():
-    """
-    for logging out user
+    """ logging out user
     """
     from api.v1.app import auth
     if auth.destroy_session(request):
