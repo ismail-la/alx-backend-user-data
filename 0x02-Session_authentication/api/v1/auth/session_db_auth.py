@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Session storage module
-"""
+"""A session storage module"""
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from datetime import datetime, timedelta
 from models.user_session import UserSession
@@ -26,8 +24,7 @@ class SessionDBAuth(SessionExpAuth):
         return session.session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
-        """ Get user by session id
-        """
+
         if not session_id or type(session_id) is not str:
             return None
         try:
@@ -38,11 +35,11 @@ class SessionDBAuth(SessionExpAuth):
             return None
         session = sessions[0]
 
-        # Session with infinity lifespan
+
         if self.session_duration <= 0:
             return session.user_id
 
-        # Check for expired session
+
         expiry_date = session.updated_at \
             + timedelta(seconds=self.session_duration)
         if datetime.utcnow() < expiry_date:
@@ -52,8 +49,7 @@ class SessionDBAuth(SessionExpAuth):
         return None
 
     def destroy_session(self, request=None) -> bool:
-        """ Destroy session object based on session id
-        """
+
         if not request:
             return False
         session_id = self.session_cookie(request)
